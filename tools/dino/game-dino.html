@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DINO RUN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+<!-- GAME WRAPPER -->
+<div id="gameWrapper" class="relative rounded-lg overflow-hidden border-2 border-cyan-400"
+     style="width:800px; height:400px; background: linear-gradient(180deg,#0d0d1a 0%, #0d0d1a 60%, #111122 100%);">
+
+  <!-- Stars BG -->
+  <div id="starsBg" class="absolute inset-0 overflow-hidden"></div>
+
+  <!-- Clouds -->
+  <div id="clouds" class="absolute top-0 left-0 flex" style="width:200%; height:100%; pointer-events:none; opacity:.25"></div>
+
+  <!-- Ground -->
+  <div id="ground"></div>
+
+  <!-- ══════════════ MAIN MENU ══════════════ -->
+  <div id="menuScreen" class="absolute inset-0 flex flex-col items-center justify-center z-10">
+    <div class="mb-2" style="animation: fadeIn .6s ease forwards;">
+      <!-- Big pixel dino icon -->
+      <canvas id="menuDino" width="88" height="104" style="animation: float 2s ease-in-out infinite;"></canvas>
+    </div>
+
+    <h1 class="text-cyan-400 text-3xl mb-1 title-glitch" style="letter-spacing:4px; animation-delay:.1s; animation: fadeIn .6s .1s ease both, glitch .4s 1s infinite;">
+      DINO RUN
+    </h1>
+    <p class="text-green-400 text-xs mb-8" style="animation: fadeIn .6s .3s ease both; opacity:0;">
+      &gt; RETRO EDITION &lt;
+    </p>
+
+    <button id="startBtn"
+      onclick="startGame()"
+      class="pulse-btn border-2 border-cyan-400 text-cyan-400 px-8 py-3 text-sm hover:bg-cyan-400 hover:text-black transition-colors duration-200"
+      style="animation: fadeIn .6s .5s ease both, pulse-border 1.5s 1s infinite; opacity:0;">
+      ▶ START GAME
+    </button>
+
+    <div class="mt-8 text-gray-500 text-xs text-center leading-6" style="animation: fadeIn .6s .7s ease both; opacity:0;">
+      <p>SPACE / ↑ → JUMP</p>
+      <p class="text-gray-600 mt-1">+10 PTS PER OBSTACLE</p>
+      <p class="text-gray-600">SPEED UP EVERY 100 PTS</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ GAME SCREEN ══════════════ -->
+  <div id="gameScreen" class="absolute inset-0 hidden">
+
+    <!-- HUD -->
+    <div class="absolute top-4 left-5 right-5 flex justify-between items-start z-10">
+      <div>
+        <div class="text-gray-500 text-xs mb-1">SCORE</div>
+        <div id="scoreDisplay" class="text-cyan-400 text-lg">00000</div>
+      </div>
+      <div class="text-right">
+        <div class="text-gray-500 text-xs mb-1">BEST</div>
+        <div id="bestDisplay" class="text-yellow-400 text-lg">00000</div>
+      </div>
+    </div>
+
+    <!-- Speed badge (hidden by default) -->
+    <div id="speedBadge" class="absolute top-16 left-1/2 -translate-x-1/2 bg-yellow-400 text-black text-xs px-3 py-1 hidden z-20">
+      ⚡ SPEED UP!
+    </div>
+
+    <!-- Dino -->
+    <canvas id="dinoCanvas" width="44" height="52"
+      style="position:absolute; bottom:63px; left:80px; z-index:5;"></canvas>
+
+    <!-- Obstacle container -->
+    <div id="obstacleContainer" class="absolute inset-0 overflow-hidden"></div>
+
+  </div>
+
+  <!-- ══════════════ GAME OVER SCREEN ══════════════ -->
+  <div id="gameOverScreen" class="absolute inset-0 flex flex-col items-center justify-center z-10 hidden">
+    <div class="text-center" style="animation: fadeIn .4s ease forwards;">
+      <div class="text-red-400 text-xl mb-2" style="text-shadow: 2px 0 #f00, -2px 0 #f00;">GAME OVER</div>
+      <div class="text-gray-400 text-xs mb-1">SCORE</div>
+      <div id="finalScore" class="text-cyan-400 text-2xl mb-1">00000</div>
+      <div id="newBestLabel" class="text-yellow-400 text-xs mb-6 hidden">★ NEW BEST! ★</div>
+
+      <button onclick="startGame()"
+        class="pulse-btn border-2 border-cyan-400 text-cyan-400 px-6 py-2 text-xs hover:bg-cyan-400 hover:text-black transition-colors duration-200 mr-2">
+        ▶ RETRY
+      </button>
+      <button onclick="showMenu()"
+        class="border-2 border-gray-600 text-gray-400 px-6 py-2 text-xs hover:bg-gray-700 transition-colors duration-200">
+        MENU
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script src="script.js"></script>
+</body>
+</html>

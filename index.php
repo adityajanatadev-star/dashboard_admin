@@ -5,7 +5,7 @@ requireLogin();
 
 $user = currentUser();
 $activePage = $_GET['page'] ?? 'main';
-$allowedPages = ['main', 'menu1', 'users'];
+$allowedPages = ['main', 'menu1', 'users', 'dino'];
 
 // Sanitasi page param
 if (!in_array($activePage, $allowedPages, true)) {
@@ -462,6 +462,12 @@ if (!in_array($activePage, $allowedPages, true)) {
          href="?page=menu1" data-tooltip="Menu 1" data-page="menu1">
         <i data-lucide="layers" class="nav-icon"></i>
         <span class="menu-label">Menu 1</span>
+      </a>
+
+      <a class="nav-item <?= $activePage === 'dino' ? 'active' : '' ?>"
+         href="?page=dino" data-tooltip="Dino Tools" data-page="dino">
+        <i data-lucide="dinosaur" class="nav-icon"></i>
+        <span class="menu-label">Dino</span>
       </a>
 
       <?php if (hasRole('administrator')): ?>

@@ -1,0 +1,138 @@
+* { box-sizing: border-box; image-rendering: pixelated; }
+
+body {
+  background: #1a1a2e;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+}
+
+/* ─── pixel scanline overlay ─── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,.08) 2px,
+    rgba(0,0,0,.08) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ─── CRT glow ─── */
+#gameWrapper {
+  box-shadow:
+    0 0 40px #0ff3,
+    0 0 80px #0ff1,
+    inset 0 0 60px #0002;
+}
+
+/* ─── stars ─── */
+.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 2s infinite alternate; }
+@keyframes twinkle { from { opacity: .2 } to { opacity: 1 } }
+
+/* ─── ground ─── */
+#ground {
+  position: absolute;
+  bottom: 60px; left: 0; right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #0ff 0 8px, transparent 8px 16px);
+}
+
+/* ─── dino ─── */
+#dino {
+  position: absolute;
+  bottom: 63px;
+  left: 80px;
+  width: 44px;
+  height: 52px;
+  transition: none;
+}
+
+/* pixel dino drawn via box-shadow trick on a tiny canvas */
+.dino-sprite {
+  width: 44px;
+  height: 52px;
+  position: relative;
+}
+
+/* ─── obstacles ─── */
+.obstacle {
+  position: absolute;
+  bottom: 63px;
+}
+
+/* ─── cactus pixels ─── */
+.cactus {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+.cactus-seg {
+  background: #0f0;
+  box-shadow: 2px 2px 0 #0a0, -2px 2px 0 #0a0;
+}
+
+/* ─── animations ─── */
+@keyframes jump {
+  0%   { bottom: 63px; }
+  40%  { bottom: 190px; }
+  55%  { bottom: 190px; }
+  100% { bottom: 63px; }
+}
+
+@keyframes run1 {
+  0%,100% { transform: scaleY(1); }
+  50%     { transform: scaleY(.97) scaleX(1.03); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+
+@keyframes glitch {
+  0%,100% { text-shadow: 2px 0 #f0f, -2px 0 #0ff; transform: none; }
+  25%     { text-shadow: -2px 0 #f0f, 2px 0 #0ff; transform: translateX(2px); }
+  50%     { text-shadow: 2px 0 #0ff, -2px 0 #f0f; transform: translateX(-2px); }
+  75%     { text-shadow: -2px 0 #0ff, 2px 0 #f0f; transform: none; }
+}
+
+@keyframes pulse-border {
+  0%,100% { border-color: #0ff; box-shadow: 0 0 10px #0ff5; }
+  50%     { border-color: #f0f; box-shadow: 0 0 20px #f0f8; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.jump-anim { animation: jump .55s ease-out forwards; }
+.title-glitch { animation: glitch .4s infinite; }
+.pulse-btn { animation: pulse-border 1.5s infinite; }
+
+/* score flash */
+@keyframes scoreFlash {
+  0%   { color: #ff0; transform: scale(1.3); }
+  100% { color: #0ff; transform: scale(1); }
+}
+.score-flash { animation: scoreFlash .3s ease-out; }
+
+/* speed badge */
+@keyframes badgeIn {
+  0%   { opacity: 0; transform: translateX(40px); }
+  20%  { opacity: 1; transform: translateX(0); }
+  80%  { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-40px); }
+}
+#speedBadge { animation: badgeIn 2s ease forwards; }
+
+/* cloud scroll */
+@keyframes cloudScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+#clouds { animation: cloudScroll 20s linear infinite; }
